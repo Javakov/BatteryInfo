@@ -1,0 +1,73 @@
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/battery_info_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Данные загружаются..." />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey" />
+
+        <TextView
+            android:id="@+id/BATTERY_HEALTH_GOOD"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Хорошее (Good) - Этот статус означает, что здоровье батареи считается хорошим. Это указывает на то, что батарея функционирует нормально и ее состояние соответствует ожиданиям. 😉😄"/>
+
+        <TextView
+            android:id="@+id/BATTERY_HEALTH_OVERHEAT"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Перегрето (Overheated) - Этот статус указывает на перегрев батареи. Если батарея сильно нагревается, это может привести к снижению ее производительности и сокращению срока службы. ☀️🌡" />
+
+        <TextView
+            android:id="@+id/BATTERY_HEALTH_DEAD"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Разряжена (Dead) - Этот статус указывает на то, что батарея полностью разряжена и не может больше удерживать энергию. В этом состоянии батарея обычно должна быть заменена. ⚠️🔋" />
+
+        <TextView
+            android:id="@+id/BATTERY_HEALTH_OVER_VOLTAGE"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Перенапряжение (Over Voltage) - Этот статус указывает на перенапряжение батареи, когда напряжение превышает допустимые пределы. Это может вызвать повреждение батареи и негативно сказаться на ее производительности. ⚡️\uD83D\uDD0C"/>
+
+        <TextView
+            android:id="@+id/BATTERY_HEALTH_UNSPECIFIED_FAILURE"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Неуказанная неисправность (Unspecified Failure) - Этот статус указывает на неспецифическую неисправность батареи. Он обозначает проблемы, которые не могут быть явно определены другими значениями статуса здоровья. ❓❌"/>
+
+        <TextView
+            android:id="@+id/BATTERY_HEALTH_COLD"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Холодное (Cold) - Этот статус указывает на то, что батарея находится в холодном состоянии. Низкие температуры могут оказывать негативное влияние на производительность батареи и сокращать ее емкость. ❄️" />
+
+        <TextView
+            android:id="@+id/BATTERY_HEALTH_UNKNOWN"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Неизвестно (Unknown) - Этот статус указывает на то, что здоровье батареи неизвестно или не может быть определено. ❓😕" />
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
