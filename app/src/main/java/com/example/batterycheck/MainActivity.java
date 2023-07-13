@@ -115,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             builder.setChannelId(CHANNEL_ID);
+
         }
 
         Notification notification = builder.build();
