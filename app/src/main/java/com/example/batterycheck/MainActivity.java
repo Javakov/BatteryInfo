@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,8 +16,11 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+
+import java.time.LocalTime;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,8 +36,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         batteryInfoTextView = findViewById(R.id.battery_info_textview);
-
-        createNotificationChannel();
 
         batteryInfoReceiver = new BroadcastReceiver() {
             @Override
@@ -68,8 +70,6 @@ public class MainActivity extends AppCompatActivity {
                 "Состояние здоровья батареи: " + healthStatus;
 
         batteryInfoTextView.setText(batteryInfo);
-
-        showNotification(batteryInfo);
     }
 
     private String getHealthStatusString(int health) {
@@ -89,39 +89,5 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return "Неизвестно (Unknown)";
         }
-    }
-
-    private void createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "Battery Channel";
-            String description = "Notification Channel for Battery Updates";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
-            channel.setDescription(description);
-            NotificationManager manager = getSystemService(NotificationManager.class);
-            manager.createNotificationChannel(channel);
-        }
-    }
-
-    private void showNotification(String batteryInfo) {
-        // Используем HTML-разметку для добавления переносов строк
-        String formattedBatteryInfo = batteryInfo.replace("\n\n", "<br>");
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_notification)
-                .setContentTitle("Информация о батарее:")
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(formattedBatteryInfo)))
-                .setPriority(NotificationCompat.PRIORITY_HIGH);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            builder.setChannelId(CHANNEL_ID);
-
-        }
-
-        Notification notification = builder.build();
-        notification.flags |= Notification.FLAG_ONGOING_EVENT; // Предотвращает смахивание уведомления
-
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-        notificationManager.notify(NOTIFICATION_ID, notification);
     }
 }

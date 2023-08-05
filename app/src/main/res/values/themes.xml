@@ -1,8 +1,18 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.BatteryCheck" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">#FBFDFF</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="colorPrimaryVariant">#2492F7</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">#2492F7</item>
+        <item name="colorSecondaryVariant">#2492F7</item>
+        <item name="colorOnSecondary">#2491F6</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">#2492F7</item>
+        <item name="android:navigationBarColor">#2492F7</item>
+        <item name="android:windowLightNavigationBar">true</item>
     </style>
 
     <style name="Theme.BatteryCheck" parent="Base.Theme.BatteryCheck" />
