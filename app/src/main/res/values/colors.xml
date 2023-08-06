@@ -11,4 +11,5 @@
     <color name="endColor">#E8F0FE</color>
     <color name="strokeColor">#FFFFFF</color>
     <!-- Add more colors for night theme as needed -->
+    <color name="tintColor">#003258</color>
 </resources>

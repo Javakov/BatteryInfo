@@ -11,6 +11,8 @@
         <item name="colorSecondary">#2492F7</item>
         <item name="colorSecondaryVariant">#2492F7</item>
         <item name="colorOnSecondary">#2491F6</item>
+        <item name="android:tint">@color/tintColor</item>
+
         <item name="android:statusBarColor">#9DC9FE</item>
         <item name="android:navigationBarColor">#9DC9FE</item>
         <item name="android:windowLightNavigationBar">true</item>

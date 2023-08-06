@@ -11,18 +11,13 @@
         <item name="colorSecondaryVariant">@color/grey</item>
         <item name="colorOnSecondary">@color/grey</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">#5C47D2</item>
-        <item name="android:navigationBarColor">#5C47D2</item>
+        <item name="android:statusBarColor">@color/strokeColor</item>
+        <item name="android:navigationBarColor">@color/strokeColor</item>
         <item name="android:windowLightNavigationBar">true</item>
         <!-- Additional colors for night theme -->
         <item name="android:startColor">@color/startColor</item>
         <item name="android:endColor">@color/endColor</item>
         <item name="strokeColor">@color/strokeColor</item>
-    </style>
-
-    <style name="Theme.BatteryCheck.Night" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Status bar color for night theme -->
-        <item name="android:statusBarColor">#9268C6</item>
-        <item name="android:navigationBarColor">#9268C6</item>
+        <item name="android:tint">@color/tintColor</item>
     </style>
 </resources>

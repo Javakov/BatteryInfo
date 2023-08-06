@@ -3,7 +3,7 @@
     <style name="Base.Theme.BatteryCheck" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/grey</item>
-        <item name="android:textColor">#CAC0D9</item>
+        <item name="android:textColor">#C7BBDA</item>
         <item name="colorPrimaryVariant">@color/grey</item>
         <item name="colorOnPrimary">#000000</item>
         <!-- Secondary brand color. -->
@@ -11,12 +11,13 @@
         <item name="colorSecondaryVariant">@color/grey</item>
         <item name="colorOnSecondary">@color/grey</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">#5C47D2</item>
-        <item name="android:navigationBarColor">#5C47D2</item>
+        <item name="android:statusBarColor">@color/strokeColor</item>
+        <item name="android:navigationBarColor">@color/strokeColor</item>
         <item name="android:windowLightNavigationBar">true</item>
         <!-- Additional colors for night theme -->
         <item name="android:startColor">@color/startColor</item>
         <item name="android:endColor">@color/endColor</item>
         <item name="strokeColor">@color/strokeColor</item>
+        <item name="android:tint">@color/tintColor</item>
     </style>
 </resources>

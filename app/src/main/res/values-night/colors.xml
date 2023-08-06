@@ -4,4 +4,5 @@
     <color name="startColor">#00497C</color>
     <color name="endColor">#0261A5</color>
     <color name="strokeColor">#003258</color>
+    <color name="tintColor">#BBB7D1</color>
 </resources>

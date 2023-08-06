@@ -13,7 +13,7 @@
         <item name="android:statusBarColor">#9DC9FE</item>
         <item name="android:navigationBarColor">#9DC9FE</item>
         <item name="android:windowLightNavigationBar">true</item>
-
+        <item name="android:tint">@color/tintColor</item>
         <!-- Additional colors for night theme -->
         <item name="android:startColor">@color/startColor</item>
         <item name="android:endColor">@color/endColor</item>

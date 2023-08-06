@@ -42,6 +42,10 @@ public class BatteryWidget extends AppWidgetProvider {
 
         // Запуск обновления виджета
         countDownTimer.start();
+
+        // Регистрация BroadcastReceiver для получения обновлений состояния батареи
+        IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+        context.getApplicationContext().registerReceiver(batteryInfoReceiver, filter);
     }
 
     private void updateWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
@@ -135,6 +139,10 @@ public class BatteryWidget extends AppWidgetProvider {
         if (countDownTimer != null) {
             countDownTimer.cancel();
         }
+        
+        // Отмена регистрации BroadcastReceiver при отключении виджета
+        context.getApplicationContext().unregisterReceiver(batteryInfoReceiver);
+
     }
 
     private String getHealthStatusString(int health) {
