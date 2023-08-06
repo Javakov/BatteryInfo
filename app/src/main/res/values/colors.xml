@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
+    <color name="black">#FFFFFF</color>
     <color name="white">#FFFFFFFF</color>
     <color name="grey">#515151</color>
+    <color name="берюзовый">#12B3E4</color>
+    <color name="светло_берюзовый">#73BBD1</color>
+
+    <!-- Colors for day theme -->
+    <color name="startColor">#9DC9FE</color>
+    <color name="endColor">#E8F0FE</color>
+    <color name="strokeColor">#FFFFFF</color>
+    <!-- Add more colors for night theme as needed -->
 </resources>

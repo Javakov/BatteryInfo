@@ -39,12 +39,6 @@ public class MainActivity extends AppCompatActivity {
         executorService.scheduleAtFixedRate(updateBatteryRunnable, 0, 1, TimeUnit.SECONDS);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unregisterReceiver(batteryInfoReceiver);
-        executorService.shutdown();
-    }
 
     private void updateBatteryInfo(Intent intent) {
         int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
@@ -97,10 +91,16 @@ public class MainActivity extends AppCompatActivity {
             IntentFilter intentFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
             Intent batteryStatus = registerReceiver(null, intentFilter);
             if (batteryStatus != null) {
-                updateBatteryInfo(batteryStatus);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateBatteryInfo(batteryStatus);
+                    }
+                });
             }
         }
     };
+
 
     private String getHealthStatusString(int health) {
         switch (health) {
@@ -133,25 +133,6 @@ public class MainActivity extends AppCompatActivity {
                 return "Беспроводной.";
             default:
                 return "Нет источника питания.";
-        }
-    }
-
-    private String getMahInfo(int mahId){
-        switch (mahId){
-            case BatteryManager.BATTERY_PROPERTY_CAPACITY:
-                return "Оставшаяся емкость аккумулятора в виде целого процента от общей емкости";
-            case BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER:
-                return "Емкость аккумулятора в микроампер-часах, как целое число.";
-            case BatteryManager.BATTERY_PROPERTY_CURRENT_AVERAGE:
-                return "Средний ток батареи в микроамперах, как целое число.";
-            case BatteryManager.BATTERY_PROPERTY_CURRENT_NOW:
-                return "Оставшаяся емкость аккумулятора в виде целого процента от общей емкости";
-            case BatteryManager.BATTERY_PROPERTY_ENERGY_COUNTER:
-                return "Оставшаяся емкость аккумулятора в виде целого процента от общей емкости";
-            case BatteryManager.BATTERY_PROPERTY_STATUS:
-                return "Оставшаяся емкость аккумулятора в виде целого процента от общей емкости";
-            default:
-                return "error";
         }
     }
 }

@@ -2,7 +2,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:theme="@style/Base.Theme.BatteryCheck">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -48,10 +49,6 @@
             android:text="Документация:"
             android:textStyle="bold"/>
 
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"/>
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -72,13 +69,13 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Средний ток батареи - (Миллиампер-час)."/>
+            android:text="Средний ток батареи - (Миллиамперы)."/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Текущий ток батареи - (Миллиампер-час). Положительные значения указывают на чистый ток, поступающий в батарею от источника заряда, отрицательные значения указывают на чистый ток, вытекающий из батареи."/>
+            android:text="Текущий ток батареи - (Миллиамперы). Положительные значения указывают на чистый ток, поступающий в батарею от источника заряда, отрицательные значения указывают на чистый ток, вытекающий из батареи."/>
 
         <TextView
             android:layout_width="match_parent"

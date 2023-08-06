@@ -1,22 +1,19 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.BatteryCheck" parent="Theme.Material3.DayNight.NoActionBar">
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.BatteryCheck" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:startColor">@color/startColor</item>
+        <item name="android:endColor">@color/endColor</item>
+        <item name="strokeColor">@color/strokeColor</item>
         <item name="colorPrimary">#FBFDFF</item>
         <item name="android:textColor">#535169</item>
         <item name="colorPrimaryVariant">#2492F7</item>
         <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
         <item name="colorSecondary">#2492F7</item>
         <item name="colorSecondaryVariant">#2492F7</item>
         <item name="colorOnSecondary">#2491F6</item>
-        <!-- Status bar color. -->
         <item name="android:statusBarColor">#9DC9FE</item>
         <item name="android:navigationBarColor">#9DC9FE</item>
         <item name="android:windowLightNavigationBar">true</item>
-
-        <!-- Additional colors for night theme -->
-        <item name="android:startColor">@color/startColor</item>
-        <item name="android:endColor">@color/endColor</item>
-        <item name="strokeColor">@color/strokeColor</item>
     </style>
 </resources>
+

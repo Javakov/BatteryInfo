@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Colors for night theme -->
+    <color name="startColor">#00497C</color>
+    <color name="endColor">#0261A5</color>
+    <color name="strokeColor">#003258</color>
+</resources>
