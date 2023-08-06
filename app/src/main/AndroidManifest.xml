@@ -28,6 +28,16 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".StatusActivity"
+            android:label="Status Activity">
+        </activity>
+
+        <activity
+            android:name=".DocActivity"
+            android:label="Doc Activity">
+        </activity>
+
         <!-- AndroidManifest.xml -->
         <receiver
             android:name=".BatteryWidget"

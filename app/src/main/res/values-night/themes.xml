@@ -11,8 +11,8 @@
         <item name="colorSecondaryVariant">@color/grey</item>
         <item name="colorOnSecondary">@color/grey</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">@color/strokeColor</item>
-        <item name="android:navigationBarColor">@color/strokeColor</item>
+        <item name="android:statusBarColor">@color/startColor</item>
+        <item name="android:navigationBarColor">@color/startColor</item>
         <item name="android:windowLightNavigationBar">true</item>
         <!-- Additional colors for night theme -->
         <item name="android:startColor">@color/startColor</item>

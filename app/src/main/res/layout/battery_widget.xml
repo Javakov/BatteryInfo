@@ -15,6 +15,4 @@
         android:background="@drawable/battery_background"
         android:text="Данные загружаются..."
         android:padding="8dp"/>
-
-
 </LinearLayout>

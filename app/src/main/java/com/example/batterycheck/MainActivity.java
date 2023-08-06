@@ -1,156 +1,179 @@
 package com.example.batterycheck;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.BatteryManager;
 import android.os.Bundle;
-import android.widget.TextView;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.LinearLayout;
+
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
 public class MainActivity extends AppCompatActivity {
-    private BroadcastReceiver batteryInfoReceiver;
-    private ScheduledExecutorService executorService;
 
-    private TextView levelTextView;
-    private TextView chargeCounterTextView;
-    private TextView chargingStatusTextView;
-    private TextView plugInfoTextView;
-    private TextView healthStatusTextView;
-    private TextView maxCapacityTextView;
-    private TextView usedCapacityTextView;
-    private TextView averageCurrentTextView;
-    private TextView currentNowTextView;
-    private TextView energyCounterTextView;
+    private Button statusButton;
+    private Button docButton;
+
+    private LinearLayout statusLayout1;
+    private LinearLayout statusLayout2;
+    private boolean isExpanded = false;
+
+    private boolean isButtonClickable = true;
+
+    private static final long ANIMATION_DURATION = 2000; // Продолжительность анимации в 5 секунд
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
 
-        levelTextView = findViewById(R.id.level_textview);
-        chargeCounterTextView = findViewById(R.id.charge_counter_textview);
-        chargingStatusTextView = findViewById(R.id.charging_status_textview);
-        plugInfoTextView = findViewById(R.id.plug_info_textview);
-        healthStatusTextView = findViewById(R.id.health_status_textview);
-        maxCapacityTextView = findViewById(R.id.max_capacity_textview);
-        usedCapacityTextView = findViewById(R.id.used_capacity_textview);
-        averageCurrentTextView = findViewById(R.id.average_current_textview);
-        currentNowTextView = findViewById(R.id.current_now_textview);
-        energyCounterTextView = findViewById(R.id.energy_counter_textview);
+        statusButton = findViewById(R.id.statusButton);
+        statusLayout1 = findViewById(R.id.statusLayout1);
+        statusLayout2 = findViewById(R.id.statusLayout2);
+        docButton = findViewById(R.id.docButton);
 
-        batteryInfoReceiver = new BroadcastReceiver() {
+        // Проверяем значение флага isExpanded в Intent
+        Intent intent = getIntent();
+        if (intent != null && intent.getBooleanExtra("isExpanded", false)) {
+            // Если флаг установлен, сбрасываем состояние LinearLayout без запуска анимации
+            resetLayout();
+        }
+
+        statusButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onReceive(Context context, Intent intent) {
-                updateBatteryInfo(intent);
-            }
-        };
+            public void onClick(View view) {
+                if (!isButtonClickable) {
+                    return;
+                }
+                isButtonClickable = false;
 
-        IntentFilter intentFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
-        registerReceiver(batteryInfoReceiver, intentFilter);
+                if (isExpanded) {
+                    collapseLayout1();
+                } else {
+                    expandLayout1();
+                    resetLayout();
+                }
 
-        executorService = Executors.newSingleThreadScheduledExecutor();
-        executorService.scheduleAtFixedRate(updateBatteryRunnable, 0, 1, TimeUnit.SECONDS);
-    }
-
-
-    private void updateBatteryInfo(Intent intent) {
-        int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
-        int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
-        float batteryPercent = (level / (float) scale) * 100;
-
-        boolean isCharging = intent.getIntExtra(BatteryManager.EXTRA_STATUS, -1) == BatteryManager.BATTERY_STATUS_CHARGING;
-        String chargingStatus = isCharging ? "Заряжается" : "Не заряжается";
-
-        int health = intent.getIntExtra(BatteryManager.EXTRA_HEALTH, BatteryManager.BATTERY_HEALTH_UNKNOWN);
-        String healthStatus = getHealthStatusString(health);
-
-        int plug = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
-        String plugInfo = getPlugInfo(plug);
-
-        // Получение информации о каждой константе
-        BatteryManager batteryManager = (BatteryManager) getSystemService(Context.BATTERY_SERVICE);
-        int chargeCounter = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER);
-        double mAhChargeCounter = chargeCounter / 1000.0;
-
-        double batteryCapacitymAh = level * mAhChargeCounter / 100.0;
-        double maxBatteryCapacitymAh = batteryCapacitymAh + mAhChargeCounter;
-
-        int currentAverage = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_AVERAGE);
-        double mAhCurrentAverage = currentAverage / 1000.0;
-
-        int currentNow = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_NOW);
-        double mAhCurrentNow = currentNow / 1000.0;
-
-        long energyCounter = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_ENERGY_COUNTER);
-        double vtEnergyCounter = energyCounter / 1000000000.0;
-
-        levelTextView.setText("Уровень заряда батареи (%): " + level + "%");
-        chargeCounterTextView.setText("Уровень заряда батареи (mAh): " + mAhChargeCounter + " mAh");
-        chargingStatusTextView.setText("Состояние: " + chargingStatus);
-        plugInfoTextView.setText("Источник питания: " + plugInfo);
-        healthStatusTextView.setText("Состояние здоровья батареи: " + healthStatus);
-        maxCapacityTextView.setText("Максимальный уровень заряда батареи (mAh): ≈" + maxBatteryCapacitymAh + " mAh");
-        usedCapacityTextView.setText("Количество зарядки, которую аккумулятор уже использовал или отдал (mAh): " + batteryCapacitymAh + " mAh");
-        averageCurrentTextView.setText("Средний ток батареи: " + mAhCurrentAverage + " mA");
-        currentNowTextView.setText("Текущий ток батареи: " + mAhCurrentNow + " mA");
-        energyCounterTextView.setText("Оставшийся заряд батареи (Wh): " + vtEnergyCounter + " Wh");
-    }
-
-    private final Runnable updateBatteryRunnable = new Runnable() {
-        @Override
-        public void run() {
-            IntentFilter intentFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
-            Intent batteryStatus = registerReceiver(null, intentFilter);
-            if (batteryStatus != null) {
-                runOnUiThread(new Runnable() {
+                new android.os.CountDownTimer(ANIMATION_DURATION, ANIMATION_DURATION) {
                     @Override
-                    public void run() {
-                        updateBatteryInfo(batteryStatus);
+                    public void onTick(long millisUntilFinished) {
+                        // Ничего не делаем на протяжении задержки
                     }
-                });
+
+                    @Override
+                    public void onFinish() {
+                        Intent intent = new Intent(MainActivity.this, StatusActivity.class);
+                        startActivity(intent);
+                    }
+                }.start();
             }
-        }
-    };
+        });
 
+        docButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!isButtonClickable) {
+                    return;
+                }
+                isButtonClickable = false;
 
-    private String getHealthStatusString(int health) {
-        switch (health) {
-            case BatteryManager.BATTERY_HEALTH_GOOD:
-                return "Хорошее (Good)";
-            case BatteryManager.BATTERY_HEALTH_OVERHEAT:
-                return "Перегрето (Overheated)";
-            case BatteryManager.BATTERY_HEALTH_DEAD:
-                return "Разряжена (Dead)";
-            case BatteryManager.BATTERY_HEALTH_OVER_VOLTAGE:
-                return "Перенапряжение (Over Voltage)";
-            case BatteryManager.BATTERY_HEALTH_UNSPECIFIED_FAILURE:
-                return "Неуказанная неисправность (Unspecified Failure)";
-            case BatteryManager.BATTERY_HEALTH_COLD:
-                return "Холодное (Cold)";
-            default:
-                return "Неизвестно (Unknown)";
-        }
+                if (isExpanded) {
+                    collapseLayout2();
+                } else {
+                    expandLayout2();
+                    resetLayout();
+                }
+
+                new android.os.CountDownTimer(ANIMATION_DURATION, ANIMATION_DURATION) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+                        // Ничего не делаем на протяжении задержки
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        Intent intent = new Intent(MainActivity.this, DocActivity.class);
+                        startActivity(intent);
+                    }
+                }.start();
+            }
+        });
     }
 
-    private String getPlugInfo(int plugId){
-        switch (plugId){
-            case BatteryManager.BATTERY_PLUGGED_AC:
-                return "Зарядное устройство, которое подключено к розетке переменного тока.";
-            case BatteryManager.BATTERY_PLUGGED_DOCK:
-                return "Док-станция.";
-            case BatteryManager.BATTERY_PLUGGED_USB:
-                return "USB-порт (от компьютера, ноутбука и т.д.)";
-            case BatteryManager.BATTERY_PLUGGED_WIRELESS:
-                return "Беспроводной.";
-            default:
-                return "Нет источника питания.";
-        }
+    private void expandLayout1() {
+        animateLayoutHeight(statusLayout1, 200, 1500);
+        isExpanded = true;
     }
+
+    private void collapseLayout1() {
+        animateLayoutHeight(statusLayout1, 1500, 200);
+        isExpanded = false;
+    }
+
+    private void expandLayout2() {
+        animateLayoutHeight(statusLayout2, 200, 1500);
+        isExpanded = true;
+    }
+
+    private void collapseLayout2() {
+        animateLayoutHeight(statusLayout2, 1500, 200);
+        isExpanded = false;
+    }
+    private void animateLayoutHeight(final View view, int startHeight, int endHeight) {
+        ValueAnimator animator = ValueAnimator.ofInt(startHeight, endHeight);
+        animator.setDuration(ANIMATION_DURATION);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                int value = (int) valueAnimator.getAnimatedValue();
+                view.getLayoutParams().height = value;
+                view.requestLayout();
+            }
+        });
+        animator.start();
+
+        animator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                if (isExpanded) {
+                    Intent intent = new Intent(MainActivity.this, StatusActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        resetLayout();
+        isButtonClickable = true;
+    }
+
+    @Override
+    protected void onRestart() {
+        resetLayout();
+        super.onRestart();
+        isButtonClickable = true;
+    }
+
+    private void resetLayout() {
+        statusLayout1.getLayoutParams().height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        statusLayout1.requestLayout();
+        statusLayout2.getLayoutParams().height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        statusLayout2.requestLayout();
+        isExpanded = false;
+    }
+
 }
+
