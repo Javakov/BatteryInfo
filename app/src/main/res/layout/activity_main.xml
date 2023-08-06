@@ -17,16 +17,100 @@
             android:text="Диспетчер состояний:"
             android:textStyle="bold"/>
 
+        <TextView
+            android:id="@+id/level_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
         <Space
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"/>
 
         <TextView
-            android:id="@+id/battery_info_textview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Данные загружаются..." />
+            android:id="@+id/charge_counter_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:id="@+id/charging_status_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:id="@+id/plug_info_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:id="@+id/health_status_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:id="@+id/max_capacity_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:id="@+id/used_capacity_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:id="@+id/average_current_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:id="@+id/current_now_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:id="@+id/energy_counter_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
         <Space
             android:layout_width="wrap_content"

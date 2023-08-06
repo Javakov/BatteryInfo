@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">BatteryCheck</string>
+    <string name="level">Уровень заряда батареи (%): </string>
+    <string name="mAhChargeCounter">Уровень заряда батареи (mAh): </string>
+    <string name="chargingStatus">Состояние: </string>
+    <string name="plugInfo">Источник питания: </string>
+    <string name="healthStatus">Состояние здоровья батареи: </string>
+    <string name="maxBatteryCapacitymAh">Максимальный уровень заряда батареи (mAh): ≈</string>
+    <string name="batteryCapacitymAh">Количество зарядки, которую аккумулятор уже использовал или отдал (mAh): </string>
+    <string name="mAhCurrentAverage">Средний ток батареи: </string>
+    <string name="mAhCurrentNow">Текущий ток батареи: </string>
+    <string name="vtEnergyCounter">Оставшийся заряд батареи (Wh): </string>
 </resources>

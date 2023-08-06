@@ -14,17 +14,37 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
-
-    private TextView batteryInfoTextView;
     private BroadcastReceiver batteryInfoReceiver;
     private ScheduledExecutorService executorService;
+
+    private TextView levelTextView;
+    private TextView chargeCounterTextView;
+    private TextView chargingStatusTextView;
+    private TextView plugInfoTextView;
+    private TextView healthStatusTextView;
+    private TextView maxCapacityTextView;
+    private TextView usedCapacityTextView;
+    private TextView averageCurrentTextView;
+    private TextView currentNowTextView;
+    private TextView energyCounterTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
-        batteryInfoTextView = findViewById(R.id.battery_info_textview);
+        levelTextView = findViewById(R.id.level_textview);
+        chargeCounterTextView = findViewById(R.id.charge_counter_textview);
+        chargingStatusTextView = findViewById(R.id.charging_status_textview);
+        plugInfoTextView = findViewById(R.id.plug_info_textview);
+        healthStatusTextView = findViewById(R.id.health_status_textview);
+        maxCapacityTextView = findViewById(R.id.max_capacity_textview);
+        usedCapacityTextView = findViewById(R.id.used_capacity_textview);
+        averageCurrentTextView = findViewById(R.id.average_current_textview);
+        currentNowTextView = findViewById(R.id.current_now_textview);
+        energyCounterTextView = findViewById(R.id.energy_counter_textview);
+
         batteryInfoReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -71,18 +91,16 @@ public class MainActivity extends AppCompatActivity {
         long energyCounter = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_ENERGY_COUNTER);
         double vtEnergyCounter = energyCounter / 1000000000.0;
 
-        String batteryInfo = "Уровень заряда батареи (%): " + level + "%" + "\n\n" +
-                "Уровень заряда батареи (mAh): " + mAhChargeCounter + " mAh" + "\n\n" +
-                "Состояние: " + chargingStatus + "\n\n" +
-                "Источник питания: " + plugInfo + "\n\n" +
-                "Состояние здоровья батареи: " + healthStatus + "\n\n" +
-                "Максимальный уровень заряда батареи (mAh): " + " ≈" + maxBatteryCapacitymAh + " mAh" + "\n\n" +
-                "Количество зарядки, которую аккумулятор уже использовал или отдал (mAh): " + batteryCapacitymAh + " mAh" +  "\n\n" +
-                "Средний ток батареи: " + mAhCurrentAverage + " mA" + "\n\n" +
-                "Текущий ток батареи: " + mAhCurrentNow + " mA" + "\n\n" +
-                "Оставшийся заряд батареи (Wh): " + vtEnergyCounter + " Wh";
-
-        batteryInfoTextView.setText(batteryInfo);
+        levelTextView.setText("Уровень заряда батареи (%): " + level + "%");
+        chargeCounterTextView.setText("Уровень заряда батареи (mAh): " + mAhChargeCounter + " mAh");
+        chargingStatusTextView.setText("Состояние: " + chargingStatus);
+        plugInfoTextView.setText("Источник питания: " + plugInfo);
+        healthStatusTextView.setText("Состояние здоровья батареи: " + healthStatus);
+        maxCapacityTextView.setText("Максимальный уровень заряда батареи (mAh): ≈" + maxBatteryCapacitymAh + " mAh");
+        usedCapacityTextView.setText("Количество зарядки, которую аккумулятор уже использовал или отдал (mAh): " + batteryCapacitymAh + " mAh");
+        averageCurrentTextView.setText("Средний ток батареи: " + mAhCurrentAverage + " mA");
+        currentNowTextView.setText("Текущий ток батареи: " + mAhCurrentNow + " mA");
+        energyCounterTextView.setText("Оставшийся заряд батареи (Wh): " + vtEnergyCounter + " Wh");
     }
 
     private final Runnable updateBatteryRunnable = new Runnable() {
