@@ -25,7 +25,7 @@
                 android:background="@android:color/transparent"
                 android:layout_centerHorizontal="true"
                 android:fontFamily="sans-serif-thin"
-                android:textSize="40dp"
+                android:textSize="45dp"
                 android:text="Статус батареи" />
 
         </LinearLayout>
@@ -51,7 +51,7 @@
                 android:background="@android:color/transparent"
                 android:layout_centerHorizontal="true"
                 android:fontFamily="sans-serif-thin"
-                android:textSize="40dp"
+                android:textSize="45dp"
                 android:text="Документация" />
 
         </LinearLayout>

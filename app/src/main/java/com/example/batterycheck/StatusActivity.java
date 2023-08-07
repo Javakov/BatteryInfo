@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.BatteryManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 public class StatusActivity extends AppCompatActivity {
     private BroadcastReceiver batteryInfoReceiver;
     private ScheduledExecutorService executorService;
-
+    private TextView modelTextView;
     private TextView levelTextView;
     private TextView chargeCounterTextView;
     private TextView chargingStatusTextView;
@@ -33,6 +34,7 @@ public class StatusActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_status);
 
+        modelTextView = findViewById(R.id.model_textview);
         levelTextView = findViewById(R.id.level_textview);
         chargeCounterTextView = findViewById(R.id.charge_counter_textview);
         chargingStatusTextView = findViewById(R.id.charging_status_textview);
@@ -90,16 +92,21 @@ public class StatusActivity extends AppCompatActivity {
         long energyCounter = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_ENERGY_COUNTER);
         double vtEnergyCounter = energyCounter / 1000000000.0;
 
-        levelTextView.setText("Уровень заряда батареи (%): " + level + "%");
-        chargeCounterTextView.setText("Уровень заряда батареи (mAh): " + mAhChargeCounter + " mAh");
-        chargingStatusTextView.setText("Состояние: " + chargingStatus);
-        plugInfoTextView.setText("Источник питания: " + plugInfo);
-        healthStatusTextView.setText("Состояние здоровья батареи: " + healthStatus);
-        maxCapacityTextView.setText("Максимальный уровень заряда батареи (mAh): ≈" + maxBatteryCapacitymAh + " mAh");
-        usedCapacityTextView.setText("Количество зарядки, которую аккумулятор уже использовал или отдал (mAh): " + batteryCapacitymAh + " mAh");
-        averageCurrentTextView.setText("Средний ток батареи: " + mAhCurrentAverage + " mA");
-        currentNowTextView.setText("Текущий ток батареи: " + mAhCurrentNow + " mA");
-        energyCounterTextView.setText("Оставшийся заряд батареи (Wh): " + vtEnergyCounter + " Wh");
+        String model = Build.MODEL;
+        String manufacturer = Build.MANUFACTURER;
+
+
+        modelTextView.setText("Модель смартфона: " + "\n" +  manufacturer + " " + model);
+        levelTextView.setText("Уровень заряда батареи (%): " + "\n" + level + "%");
+        chargeCounterTextView.setText("Уровень заряда батареи (mAh): " + "\n" + mAhChargeCounter + " mAh");
+        chargingStatusTextView.setText("Состояние: " + "\n" + chargingStatus);
+        plugInfoTextView.setText("Источник питания: " + "\n" + plugInfo);
+        healthStatusTextView.setText("Состояние здоровья батареи: " + "\n" + healthStatus);
+        maxCapacityTextView.setText("Максимальный уровень заряда батареи (mAh): " + "\n" + "≈ " + maxBatteryCapacitymAh + " mAh");
+        usedCapacityTextView.setText("Количество зарядки, которую аккумулятор уже использовал или отдал (mAh): " + "\n" + batteryCapacitymAh + " mAh");
+        averageCurrentTextView.setText("Средний ток батареи: " + "\n" + mAhCurrentAverage + " mA");
+        currentNowTextView.setText("Текущий ток батареи: " + "\n" + mAhCurrentNow + " mA");
+        energyCounterTextView.setText("Оставшийся заряд батареи (Wh): " + "\n" + vtEnergyCounter + " Wh");
     }
 
     private final Runnable updateBatteryRunnable = new Runnable() {

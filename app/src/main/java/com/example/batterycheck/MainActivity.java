@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean isButtonClickable = true;
 
-    private static final long ANIMATION_DURATION = 2000; // Продолжительность анимации в 5 секунд
+    private static final long ANIMATION_DURATION = 1500; // Продолжительность анимации в 5 секунд
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,22 +105,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void expandLayout1() {
-        animateLayoutHeight(statusLayout1, 200, 1500);
+        animateLayoutHeight(statusLayout1, 220, 1500);
         isExpanded = true;
     }
 
     private void collapseLayout1() {
-        animateLayoutHeight(statusLayout1, 1500, 200);
+        animateLayoutHeight(statusLayout1, 1500, 220);
         isExpanded = false;
     }
 
     private void expandLayout2() {
-        animateLayoutHeight(statusLayout2, 200, 1500);
+        animateLayoutHeight(statusLayout2, 220, 1500);
         isExpanded = true;
     }
 
     private void collapseLayout2() {
-        animateLayoutHeight(statusLayout2, 1500, 200);
+        animateLayoutHeight(statusLayout2, 1500, 220);
         isExpanded = false;
     }
     private void animateLayoutHeight(final View view, int startHeight, int endHeight) {
