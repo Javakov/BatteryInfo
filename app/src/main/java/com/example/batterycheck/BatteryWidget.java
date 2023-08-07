@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.BatteryManager;
+import android.os.Build;
 import android.os.CountDownTimer;
 import android.widget.RemoteViews;
 
@@ -85,24 +86,26 @@ public class BatteryWidget extends AppWidgetProvider {
         int chargeCounter = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER);
         double mAhChargeCounter = chargeCounter / 1000.0;
 
-        double batteryCapacitymAh = level * mAhChargeCounter / 100.0;
-        double maxBatteryCapacitymAh = batteryCapacitymAh + mAhChargeCounter;
-
-        int currentAverage = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_AVERAGE);
-        double mAhCurrentAverage = currentAverage / 1000.0;
+        double maxBatteryCapacitymAh = 100.0 * mAhChargeCounter / batteryPercent;
+        double batteryCapacitymAh = maxBatteryCapacitymAh - mAhChargeCounter;
 
         int currentNow = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_NOW);
         double mAhCurrentNow = currentNow / 1000.0;
 
-        long energyCounter = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_ENERGY_COUNTER);
-        double vtEnergyCounter = energyCounter / 1000000000.0;
+        int batteryTemperature = intent.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, -1);
+        double celsBatteryTemperature = batteryTemperature / 10.0;
 
-        String batteryInfo = "Заряд: " + level + "% " + "/ " + mAhChargeCounter + "mAh" + "\n" +
+        int batteryVoltage = intent.getIntExtra(BatteryManager.EXTRA_VOLTAGE, -1);
+        double voltBatteryVoltage = batteryVoltage / 1000.0;
+
+        String batteryInfo = "Заряд: " + batteryPercent + "% " + "/ " + mAhChargeCounter + "mAh" + "\n" +
                 "Состояние: " + chargingStatus + "\n" +
                 "Источник: " + plugInfo + "\n" +
                 "Здоровье: " + healthStatus + "\n" +
                 "Макс. заряд: " + "≈" + maxBatteryCapacitymAh + " mAh" + "\n" +
-                "Текущ. ток: " + mAhCurrentNow + " mA";
+                "Текущ. ток: " + mAhCurrentNow + " mA" + "\n" +
+                "Текущ. напряж: " + voltBatteryVoltage + " V" + "\n" +
+                "Текущ. темп: " + celsBatteryTemperature + " °C";
 
 
         return batteryInfo;
@@ -167,15 +170,15 @@ public class BatteryWidget extends AppWidgetProvider {
     private String getPlugInfo(int plugId){
         switch (plugId){
             case BatteryManager.BATTERY_PLUGGED_AC:
-                return "Зарядное устройство, которое подключено к розетке переменного тока.";
+                return "Розетка перемен. тока";
             case BatteryManager.BATTERY_PLUGGED_DOCK:
-                return "Док-станция.";
+                return "Док-станция";
             case BatteryManager.BATTERY_PLUGGED_USB:
-                return "USB-порт.";
+                return "USB-порт";
             case BatteryManager.BATTERY_PLUGGED_WIRELESS:
-                return "Беспроводной.";
+                return "Беспроводной";
             default:
-                return "Нет источника питания.";
+                return "Нет источника питания";
         }
     }
 }

@@ -25,11 +25,9 @@ public class StatusActivity extends AppCompatActivity {
     private TextView healthStatusTextView;
     private TextView maxCapacityTextView;
     private TextView usedCapacityTextView;
-    private TextView averageCurrentTextView;
     private TextView currentNowTextView;
     private TextView temperaturetextview;
     private TextView voltageTextview;
-    private TextView energyCounterTextView;
 
 
     @Override
@@ -45,11 +43,9 @@ public class StatusActivity extends AppCompatActivity {
         healthStatusTextView = findViewById(R.id.health_status_textview);
         maxCapacityTextView = findViewById(R.id.max_capacity_textview);
         usedCapacityTextView = findViewById(R.id.used_capacity_textview);
-        averageCurrentTextView = findViewById(R.id.average_current_textview);
         currentNowTextView = findViewById(R.id.current_now_textview);
         temperaturetextview = findViewById(R.id.temperature_textview);
         voltageTextview = findViewById(R.id.voltage_textview);
-        energyCounterTextView = findViewById(R.id.energy_counter_textview);
 
         batteryInfoReceiver = new BroadcastReceiver() {
             @Override
@@ -85,17 +81,11 @@ public class StatusActivity extends AppCompatActivity {
         int chargeCounter = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER);
         double mAhChargeCounter = chargeCounter / 1000.0;
 
-        double batteryCapacitymAh = level * mAhChargeCounter / 100.0;
-        double maxBatteryCapacitymAh = batteryCapacitymAh + mAhChargeCounter;
-
-        int currentAverage = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_AVERAGE);
-        double mAhCurrentAverage = currentAverage / 1000.0;
+        double maxBatteryCapacitymAh = 100 * mAhChargeCounter / batteryPercent;
+        double batteryCapacitymAh = maxBatteryCapacitymAh - mAhChargeCounter;
 
         int currentNow = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_NOW);
         double mAhCurrentNow = currentNow / 1000.0;
-
-        long energyCounter = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_ENERGY_COUNTER);
-        double vtEnergyCounter = energyCounter / 1000000000.0;
 
         int batteryTemperature = intent.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, -1);
         double celsBatteryTemperature = batteryTemperature / 10.0;
@@ -107,18 +97,16 @@ public class StatusActivity extends AppCompatActivity {
         String manufacturer = Build.MANUFACTURER;
 
         modelTextView.setText("Модель смартфона: " + "\n" +  manufacturer + " " + model);
-        levelTextView.setText("Уровень заряда батареи (%): " + "\n" + level + "%");
+        levelTextView.setText("Уровень заряда батареи (%): " + "\n" + batteryPercent + "%");
         chargeCounterTextView.setText("Уровень заряда батареи (mAh): " + "\n" + mAhChargeCounter + " mAh");
         chargingStatusTextView.setText("Состояние: " + "\n" + chargingStatus);
         plugInfoTextView.setText("Источник питания: " + "\n" + plugInfo);
         healthStatusTextView.setText("Состояние здоровья батареи: " + "\n" + healthStatus);
         maxCapacityTextView.setText("Максимальный уровень заряда батареи (mAh): " + "\n" + "≈ " + maxBatteryCapacitymAh + " mAh");
         usedCapacityTextView.setText("Количество зарядки, которую аккумулятор уже использовал или отдал (mAh): " + "\n" + batteryCapacitymAh + " mAh");
-        averageCurrentTextView.setText("Средний ток батареи: " + "\n" + mAhCurrentAverage + " mA");
         currentNowTextView.setText("Текущий ток батареи: " + "\n" + mAhCurrentNow + " mA");
         temperaturetextview.setText("Температура аккумулятора: " + "\n" + celsBatteryTemperature + " °C");
         voltageTextview.setText("Tекущее напряжения батареи: " + "\n" + voltBatteryVoltage + " V");
-        energyCounterTextView.setText("Оставшийся заряд батареи (Wh): " + "\n" + vtEnergyCounter + " Wh");
     }
 
     private final Runnable updateBatteryRunnable = new Runnable() {
@@ -160,15 +148,15 @@ public class StatusActivity extends AppCompatActivity {
     private String getPlugInfo(int plugId){
         switch (plugId){
             case BatteryManager.BATTERY_PLUGGED_AC:
-                return "Зарядное устройство, которое подключено к розетке переменного тока.";
+                return "Зарядное устройство, которое подключено к розетке переменного тока";
             case BatteryManager.BATTERY_PLUGGED_DOCK:
-                return "Док-станция.";
+                return "Док-станция";
             case BatteryManager.BATTERY_PLUGGED_USB:
                 return "USB-порт (от компьютера, ноутбука и т.д.)";
             case BatteryManager.BATTERY_PLUGGED_WIRELESS:
-                return "Беспроводной.";
+                return "Беспроводной";
             default:
-                return "Нет источника питания.";
+                return "Нет источника питания";
         }
     }
 }

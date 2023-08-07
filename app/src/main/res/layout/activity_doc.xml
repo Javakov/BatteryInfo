@@ -63,7 +63,7 @@
                 android:gravity="center"
                 android:background="@drawable/plitki_background"
                 android:textSize="16sp"
-                android:text="Средний ток батареи - (Миллиамперы)."/>
+                android:text="Текущий ток батареи - (Миллиампер). Положительные значения указывают на чистый ток, поступающий в батарею от источника заряда, отрицательные значения указывают на чистый ток, вытекающий из батареи." />
 
             <Space
                 android:layout_width="wrap_content"
@@ -78,37 +78,7 @@
                 android:gravity="center"
                 android:background="@drawable/plitki_background"
                 android:textSize="16sp"
-                android:text="Текущий ток батареи - (Миллиамперы). Положительные значения указывают на чистый ток, поступающий в батарею от источника заряда, отрицательные значения указывают на чистый ток, вытекающий из батареи." />
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="14dp"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center"
-                android:background="@drawable/plitki_background"
-                android:textSize="16sp"
-                android:text="Текущее напряжение батареи - это электрический потенциал, измеряемый в вольтах, который указывает на разницу потенциалов между положительным и отрицательным полюсами батареи." />
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="14dp"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center"
-                android:background="@drawable/plitki_background"
-                android:textSize="16sp"
-                android:text="Оставшийся заряд батареи - (Ватт-час). Ватт-час равен количеству энергии, потребляемой устройством мощностью один ватт в течение одного часа." />
+                android:text="Текущее напряжение батареи - (Вольт). Указывает на разницу потенциалов между положительным и отрицательным полюсами батареи." />
 
             <Space
                 android:layout_width="wrap_content"
