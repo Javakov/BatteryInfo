@@ -27,7 +27,10 @@ public class StatusActivity extends AppCompatActivity {
     private TextView usedCapacityTextView;
     private TextView averageCurrentTextView;
     private TextView currentNowTextView;
+    private TextView temperaturetextview;
+    private TextView voltageTextview;
     private TextView energyCounterTextView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,8 @@ public class StatusActivity extends AppCompatActivity {
         usedCapacityTextView = findViewById(R.id.used_capacity_textview);
         averageCurrentTextView = findViewById(R.id.average_current_textview);
         currentNowTextView = findViewById(R.id.current_now_textview);
+        temperaturetextview = findViewById(R.id.temperature_textview);
+        voltageTextview = findViewById(R.id.voltage_textview);
         energyCounterTextView = findViewById(R.id.energy_counter_textview);
 
         batteryInfoReceiver = new BroadcastReceiver() {
@@ -92,9 +97,14 @@ public class StatusActivity extends AppCompatActivity {
         long energyCounter = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_ENERGY_COUNTER);
         double vtEnergyCounter = energyCounter / 1000000000.0;
 
+        int batteryTemperature = intent.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, -1);
+        double celsBatteryTemperature = batteryTemperature / 10.0;
+
+        int batteryVoltage = intent.getIntExtra(BatteryManager.EXTRA_VOLTAGE, -1);
+        double voltBatteryVoltage = batteryVoltage / 1000.0;
+
         String model = Build.MODEL;
         String manufacturer = Build.MANUFACTURER;
-
 
         modelTextView.setText("Модель смартфона: " + "\n" +  manufacturer + " " + model);
         levelTextView.setText("Уровень заряда батареи (%): " + "\n" + level + "%");
@@ -106,6 +116,8 @@ public class StatusActivity extends AppCompatActivity {
         usedCapacityTextView.setText("Количество зарядки, которую аккумулятор уже использовал или отдал (mAh): " + "\n" + batteryCapacitymAh + " mAh");
         averageCurrentTextView.setText("Средний ток батареи: " + "\n" + mAhCurrentAverage + " mA");
         currentNowTextView.setText("Текущий ток батареи: " + "\n" + mAhCurrentNow + " mA");
+        temperaturetextview.setText("Температура аккумулятора: " + "\n" + celsBatteryTemperature + " °C");
+        voltageTextview.setText("Tекущее напряжения батареи: " + "\n" + voltBatteryVoltage + " V");
         energyCounterTextView.setText("Оставшийся заряд батареи (Wh): " + "\n" + vtEnergyCounter + " Wh");
     }
 
