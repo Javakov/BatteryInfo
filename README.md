@@ -19,4 +19,4 @@
 
 Также присутствует документация.
 
-Скачать: https://apps.rustore.ru/app/com.example.batterycheck
+Скачать: [BatteryCheck](https://apps.rustore.ru/app/com.example.batterycheck)
