@@ -18,3 +18,5 @@
 </ul>
 
 Также присутствует документация.
+
+Скачать: [BatteryCheck](https://apps.rustore.ru/app/com.example.batterycheck)
