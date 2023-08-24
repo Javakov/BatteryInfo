@@ -4,16 +4,21 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
+
+
 
     private Button statusButton;
     private Button docButton;
@@ -42,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
             // Если флаг установлен, сбрасываем состояние LinearLayout без запуска анимации
             resetLayout();
         }
+
+        showInstructionDialog();
 
         statusButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,6 +180,35 @@ public class MainActivity extends AppCompatActivity {
         statusLayout2.getLayoutParams().height = LinearLayout.LayoutParams.WRAP_CONTENT;
         statusLayout2.requestLayout();
         isExpanded = false;
+    }
+
+    private void showInstructionDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_instruction, null);
+        builder.setView(dialogView);
+
+        AlertDialog dialog = builder.create();
+
+        Button skipButton = dialogView.findViewById(R.id.skipButton);
+        skipButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        Button rustoreButton = dialogView.findViewById(R.id.rustoreButton);
+        rustoreButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = "https://apps.rustore.ru/app/com.example.batterycheck";
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(intent);
+            }
+        });
+
+        dialog.show();
     }
 
 }

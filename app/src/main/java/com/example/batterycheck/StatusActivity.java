@@ -7,8 +7,15 @@ import android.content.IntentFilter;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.yandex.mobile.ads.banner.AdSize;
+import com.yandex.mobile.ads.banner.BannerAdView;
+import com.yandex.mobile.ads.common.AdRequest;
+import com.yandex.mobile.ads.common.InitializationListener;
+import com.yandex.mobile.ads.common.MobileAds;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -28,10 +35,12 @@ public class StatusActivity extends AppCompatActivity {
     private TextView currentNowTextView;
     private TextView temperaturetextview;
     private TextView voltageTextview;
-
+    private BannerAdView mBannerAdView;
+    private static final String YANDEX_MOBILE_ADS_TAG = "YandexMobileAds";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_status);
 
@@ -59,6 +68,24 @@ public class StatusActivity extends AppCompatActivity {
 
         executorService = Executors.newSingleThreadScheduledExecutor();
         executorService.scheduleAtFixedRate(updateBatteryRunnable, 0, 1, TimeUnit.SECONDS);
+
+        MobileAds.initialize(this, new InitializationListener() {
+            @Override
+            public void onInitializationCompleted() {
+                Log.d(YANDEX_MOBILE_ADS_TAG, "SDK initialized");
+            }
+        });
+
+        // Создание экземпляра mAdView.
+        mBannerAdView = (BannerAdView) findViewById(R.id.banner_ad_view);
+        String AdUnitId = "demo-banner-yandex"; // R-M-2733347-1
+        mBannerAdView.setAdUnitId(AdUnitId);
+        mBannerAdView.setAdSize(AdSize.BANNER_320x50);
+
+        // Создание объекта таргетирования рекламы.
+        AdRequest adRequest = new AdRequest.Builder().build();
+
+        mBannerAdView.loadAd(adRequest);
     }
 
 
@@ -81,7 +108,7 @@ public class StatusActivity extends AppCompatActivity {
         int chargeCounter = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER);
         double mAhChargeCounter = chargeCounter / 1000.0;
 
-        double maxBatteryCapacitymAh = 100 * mAhChargeCounter / batteryPercent;
+        double maxBatteryCapacitymAh = mAhChargeCounter / (batteryPercent / 100.0);
         double batteryCapacitymAh = maxBatteryCapacitymAh - mAhChargeCounter;
 
         int currentNow = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_NOW);
@@ -103,7 +130,7 @@ public class StatusActivity extends AppCompatActivity {
         plugInfoTextView.setText("Источник питания: " + "\n" + plugInfo);
         healthStatusTextView.setText("Состояние здоровья батареи: " + "\n" + healthStatus);
         maxCapacityTextView.setText("Максимальный уровень заряда батареи (mAh): " + "\n" + "≈ " + maxBatteryCapacitymAh + " mAh");
-        usedCapacityTextView.setText("Количество зарядки, которую аккумулятор уже использовал или отдал (mAh): " + "\n" + batteryCapacitymAh + " mAh");
+        usedCapacityTextView.setText("Количество зарядки, которую аккумулятор уже использовал или отдал (mAh): " + "\n" + "≈ " + batteryCapacitymAh + " mAh");
         currentNowTextView.setText("Текущий ток батареи: " + "\n" + mAhCurrentNow + " mA");
         temperaturetextview.setText("Температура аккумулятора: " + "\n" + celsBatteryTemperature + " °C");
         voltageTextview.setText("Tекущее напряжения батареи: " + "\n" + voltBatteryVoltage + " V");

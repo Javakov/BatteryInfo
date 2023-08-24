@@ -2,7 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" tools:node="remove"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <uses-permission android:name="android.permission.BATTERY_STATS" />
+    <uses-permission android:name="android.permission.BATTERY_HISTORY" />
 
     <uses-permission android:name="android.permission.VIBRATE" />
 
@@ -38,7 +42,6 @@
             android:label="Doc Activity">
         </activity>
 
-        <!-- AndroidManifest.xml -->
         <receiver
             android:name=".BatteryWidget"
             android:label="Battery Widget"
