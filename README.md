@@ -1,4 +1,6 @@
-<h1>Приложение, которое показывает состояние аккумулятора</h1>
+# Проверить Аккумулятор: Здоровье, Температура
+
+![Логотип приложения](icon.png)
 
 <h3>Функционал:</h3>
 <ul>
@@ -19,4 +21,4 @@
 
 Также присутствует документация.
 
-Скачать: [BatteryCheck](https://apps.rustore.ru/app/com.example.batterycheck)
+# Скачать: [BatteryCheck](https://apps.rustore.ru/app/com.example.batterycheck)
