@@ -1,5 +1,6 @@
-package com.example.batterycheck;
+package com.example.batterycheck.activity;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -11,10 +12,10 @@ import android.util.Log;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.batterycheck.R;
 import com.yandex.mobile.ads.banner.AdSize;
 import com.yandex.mobile.ads.banner.BannerAdView;
 import com.yandex.mobile.ads.common.AdRequest;
-import com.yandex.mobile.ads.common.InitializationListener;
 import com.yandex.mobile.ads.common.MobileAds;
 
 import java.util.concurrent.Executors;
@@ -22,8 +23,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class StatusActivity extends AppCompatActivity {
-    private BroadcastReceiver batteryInfoReceiver;
-    private ScheduledExecutorService executorService;
     private TextView modelTextView;
     private TextView levelTextView;
     private TextView chargeCounterTextView;
@@ -35,7 +34,6 @@ public class StatusActivity extends AppCompatActivity {
     private TextView currentNowTextView;
     private TextView temperaturetextview;
     private TextView voltageTextview;
-    private BannerAdView mBannerAdView;
     private static final String YANDEX_MOBILE_ADS_TAG = "YandexMobileAds";
 
     @Override
@@ -56,7 +54,7 @@ public class StatusActivity extends AppCompatActivity {
         temperaturetextview = findViewById(R.id.temperature_textview);
         voltageTextview = findViewById(R.id.voltage_textview);
 
-        batteryInfoReceiver = new BroadcastReceiver() {
+        BroadcastReceiver batteryInfoReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 updateBatteryInfo(intent);
@@ -66,19 +64,14 @@ public class StatusActivity extends AppCompatActivity {
         IntentFilter intentFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         registerReceiver(batteryInfoReceiver, intentFilter);
 
-        executorService = Executors.newSingleThreadScheduledExecutor();
+        ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
         executorService.scheduleAtFixedRate(updateBatteryRunnable, 0, 1, TimeUnit.SECONDS);
 
-        MobileAds.initialize(this, new InitializationListener() {
-            @Override
-            public void onInitializationCompleted() {
-                Log.d(YANDEX_MOBILE_ADS_TAG, "SDK initialized");
-            }
-        });
+        MobileAds.initialize(this, () -> Log.d(YANDEX_MOBILE_ADS_TAG, "SDK initialized"));
 
         // Создание экземпляра mAdView.
-        mBannerAdView = (BannerAdView) findViewById(R.id.banner_ad_view);
-        String AdUnitId = "demo-banner-yandex"; // R-M-2733347-1
+        BannerAdView mBannerAdView = (BannerAdView) findViewById(R.id.banner_ad_view);
+        String AdUnitId = "R-M-2733347-1";
         mBannerAdView.setAdUnitId(AdUnitId);
         mBannerAdView.setAdSize(AdSize.BANNER_320x50);
 
@@ -89,6 +82,7 @@ public class StatusActivity extends AppCompatActivity {
     }
 
 
+    @SuppressLint("SetTextI18n")
     private void updateBatteryInfo(Intent intent) {
         int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
         int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);

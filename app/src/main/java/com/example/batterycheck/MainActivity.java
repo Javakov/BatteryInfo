@@ -8,106 +8,92 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.batterycheck.activity.DocActivity;
+import com.example.batterycheck.activity.StatusActivity;
+
 public class MainActivity extends AppCompatActivity {
-
-
-
-    private Button statusButton;
-    private Button docButton;
-
     private LinearLayout statusLayout1;
     private LinearLayout statusLayout2;
     private boolean isExpanded = false;
 
     private boolean isButtonClickable = true;
 
-    private static final long ANIMATION_DURATION = 1500; // Продолжительность анимации в 5 секунд
+    private static final long ANIMATION_DURATION = 1500;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        statusButton = findViewById(R.id.statusButton);
+        Button statusButton = findViewById(R.id.statusButton);
         statusLayout1 = findViewById(R.id.statusLayout1);
         statusLayout2 = findViewById(R.id.statusLayout2);
-        docButton = findViewById(R.id.docButton);
+        Button docButton = findViewById(R.id.docButton);
 
-        // Проверяем значение флага isExpanded в Intent
         Intent intent = getIntent();
         if (intent != null && intent.getBooleanExtra("isExpanded", false)) {
-            // Если флаг установлен, сбрасываем состояние LinearLayout без запуска анимации
             resetLayout();
         }
 
         showInstructionDialog();
 
-        statusButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!isButtonClickable) {
-                    return;
-                }
-                isButtonClickable = false;
-
-                if (isExpanded) {
-                    collapseLayout1();
-                } else {
-                    expandLayout1();
-                    resetLayout();
-                }
-
-                new android.os.CountDownTimer(ANIMATION_DURATION, ANIMATION_DURATION) {
-                    @Override
-                    public void onTick(long millisUntilFinished) {
-                        // Ничего не делаем на протяжении задержки
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        Intent intent = new Intent(MainActivity.this, StatusActivity.class);
-                        startActivity(intent);
-                    }
-                }.start();
+        statusButton.setOnClickListener(view -> {
+            if (!isButtonClickable) {
+                return;
             }
+            isButtonClickable = false;
+
+            if (isExpanded) {
+                collapseLayout1();
+            } else {
+                expandLayout1();
+                resetLayout();
+            }
+
+            new android.os.CountDownTimer(ANIMATION_DURATION, ANIMATION_DURATION) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    // Ничего не делаем на протяжении задержки
+                }
+
+                @Override
+                public void onFinish() {
+                    Intent intent12 = new Intent(MainActivity.this, StatusActivity.class);
+                    startActivity(intent12);
+                }
+            }.start();
         });
 
-        docButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!isButtonClickable) {
-                    return;
-                }
-                isButtonClickable = false;
-
-                if (isExpanded) {
-                    collapseLayout2();
-                } else {
-                    expandLayout2();
-                    resetLayout();
-                }
-
-                new android.os.CountDownTimer(ANIMATION_DURATION, ANIMATION_DURATION) {
-                    @Override
-                    public void onTick(long millisUntilFinished) {
-                        // Ничего не делаем на протяжении задержки
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        Intent intent = new Intent(MainActivity.this, DocActivity.class);
-                        startActivity(intent);
-                    }
-                }.start();
+        docButton.setOnClickListener(view -> {
+            if (!isButtonClickable) {
+                return;
             }
+            isButtonClickable = false;
+
+            if (isExpanded) {
+                collapseLayout2();
+            } else {
+                expandLayout2();
+                resetLayout();
+            }
+
+            new android.os.CountDownTimer(ANIMATION_DURATION, ANIMATION_DURATION) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                }
+
+                @Override
+                public void onFinish() {
+                    Intent intent1 = new Intent(MainActivity.this, DocActivity.class);
+                    startActivity(intent1);
+                }
+            }.start();
         });
     }
 
@@ -133,13 +119,9 @@ public class MainActivity extends AppCompatActivity {
     private void animateLayoutHeight(final View view, int startHeight, int endHeight) {
         ValueAnimator animator = ValueAnimator.ofInt(startHeight, endHeight);
         animator.setDuration(ANIMATION_DURATION);
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                int value = (int) valueAnimator.getAnimatedValue();
-                view.getLayoutParams().height = value;
-                view.requestLayout();
-            }
+        animator.addUpdateListener(valueAnimator -> {
+            view.getLayoutParams().height = (int) valueAnimator.getAnimatedValue();
+            view.requestLayout();
         });
         animator.start();
 
@@ -191,25 +173,14 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog dialog = builder.create();
 
         Button skipButton = dialogView.findViewById(R.id.skipButton);
-        skipButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
+        skipButton.setOnClickListener(v -> dialog.dismiss());
 
         Button rustoreButton = dialogView.findViewById(R.id.rustoreButton);
-        rustoreButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String url = "https://apps.rustore.ru/app/com.example.batterycheck";
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                startActivity(intent);
-            }
+        rustoreButton.setOnClickListener(v -> {
+            String url = "https://apps.rustore.ru/app/com.example.batterycheck";
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            startActivity(intent);
         });
-
         dialog.show();
     }
-
 }
-

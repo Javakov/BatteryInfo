@@ -1,21 +1,17 @@
-package com.example.batterycheck;
+package com.example.batterycheck.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.batterycheck.R;
 import com.yandex.mobile.ads.banner.AdSize;
 import com.yandex.mobile.ads.banner.BannerAdView;
 import com.yandex.mobile.ads.common.AdRequest;
-import com.yandex.mobile.ads.common.InitializationListener;
 import com.yandex.mobile.ads.common.MobileAds;
 
 public class DocActivity extends AppCompatActivity {
-    private BannerAdView mBannerAdView;
     private static final String YANDEX_MOBILE_ADS_TAG = "YandexMobileAds";
 
     @Override
@@ -23,16 +19,11 @@ public class DocActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doc);
 
-        MobileAds.initialize(this, new InitializationListener() {
-            @Override
-            public void onInitializationCompleted() {
-                Log.d(YANDEX_MOBILE_ADS_TAG, "SDK initialized");
-            }
-        });
+        MobileAds.initialize(this, () -> Log.d(YANDEX_MOBILE_ADS_TAG, "SDK initialized"));
 
         // Создание экземпляра mAdView.
-        mBannerAdView = (BannerAdView) findViewById(R.id.banner_ad_view);
-        String AdUnitId = "demo-banner-yandex"; // R-M-2733347-1
+        BannerAdView mBannerAdView = (BannerAdView) findViewById(R.id.banner_ad_view);
+        String AdUnitId = "R-M-2733347-2";
         mBannerAdView.setAdUnitId(AdUnitId);
         mBannerAdView.setAdSize(AdSize.BANNER_320x50);
 
