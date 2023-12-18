@@ -45,37 +45,26 @@ public class UpdateBatteryInfo {
                 "Текущ. темп: " + celsBatteryTemperature + " °C";
     }
 
-    private String getHealthStatusString(int health) {
-        switch (health) {
-            case BatteryManager.BATTERY_HEALTH_GOOD:
-                return "Хорошее (Good)";
-            case BatteryManager.BATTERY_HEALTH_OVERHEAT:
-                return "Перегрето (Overheated)";
-            case BatteryManager.BATTERY_HEALTH_DEAD:
-                return "Разряжена (Dead)";
-            case BatteryManager.BATTERY_HEALTH_OVER_VOLTAGE:
-                return "Перенапряжение (Over Voltage)";
-            case BatteryManager.BATTERY_HEALTH_UNSPECIFIED_FAILURE:
-                return "Неуказанная неисправность (Unspecified Failure)";
-            case BatteryManager.BATTERY_HEALTH_COLD:
-                return "Холодное (Cold)";
-            default:
-                return "Неизвестно (Unknown)";
-        }
+    public String getHealthStatusString(int health) {
+        return switch (health) {
+            case BatteryManager.BATTERY_HEALTH_GOOD -> "Хорошее (Good)";
+            case BatteryManager.BATTERY_HEALTH_OVERHEAT -> "Перегрето (Overheated)";
+            case BatteryManager.BATTERY_HEALTH_DEAD -> "Разряжена (Dead)";
+            case BatteryManager.BATTERY_HEALTH_OVER_VOLTAGE -> "Перенапряжение (Over Voltage)";
+            case BatteryManager.BATTERY_HEALTH_UNSPECIFIED_FAILURE ->
+                    "Неуказанная неисправность (Unspecified Failure)";
+            case BatteryManager.BATTERY_HEALTH_COLD -> "Холодное (Cold)";
+            default -> "Неизвестно (Unknown)";
+        };
     }
 
-    private String getPlugInfo(int plugId){
-        switch (plugId){
-            case BatteryManager.BATTERY_PLUGGED_AC:
-                return "Розетка перемен. тока";
-            case BatteryManager.BATTERY_PLUGGED_DOCK:
-                return "Док-станция";
-            case BatteryManager.BATTERY_PLUGGED_USB:
-                return "USB-порт";
-            case BatteryManager.BATTERY_PLUGGED_WIRELESS:
-                return "Беспроводной";
-            default:
-                return "Нет источника питания";
-        }
+    public String getPlugInfo(int plugId){
+        return switch (plugId) {
+            case BatteryManager.BATTERY_PLUGGED_AC -> "Розетка перемен. тока";
+            case BatteryManager.BATTERY_PLUGGED_DOCK -> "Док-станция";
+            case BatteryManager.BATTERY_PLUGGED_USB -> "USB-порт";
+            case BatteryManager.BATTERY_PLUGGED_WIRELESS -> "Беспроводной";
+            default -> "Нет источника питания";
+        };
     }
 }

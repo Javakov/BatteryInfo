@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BatteryCheck</string>
+    <string name="app_name">Battery Check</string>
     <string name="level">Уровень заряда батареи (%): </string>
     <string name="mAhChargeCounter">Уровень заряда батареи (mAh): </string>
     <string name="chargingStatus">Состояние: </string>
@@ -19,5 +19,6 @@
     <string name="recommends">
         Буду признателен, если вы оцените приложение и напишите рекомендации в RuStore.
     </string>
+    <string name="data_loading">Данные загружаются...</string>
 
 </resources>

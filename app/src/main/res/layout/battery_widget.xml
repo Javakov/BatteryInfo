@@ -12,6 +12,6 @@
         android:fontFamily="sans-serif-condensed-medium"
         android:gravity="center"
         android:background="@drawable/battery_background"
-        android:text="Данные загружаются..."
+        android:text="@string/data_loading"
         android:padding="8dp"/>
 </LinearLayout>

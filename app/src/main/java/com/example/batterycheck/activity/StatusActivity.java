@@ -13,7 +13,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.batterycheck.R;
-import com.yandex.mobile.ads.banner.AdSize;
+import com.example.batterycheck.helper.UpdateBatteryInfo;
+import com.yandex.mobile.ads.banner.BannerAdSize;
 import com.yandex.mobile.ads.banner.BannerAdView;
 import com.yandex.mobile.ads.common.AdRequest;
 import com.yandex.mobile.ads.common.MobileAds;
@@ -73,7 +74,7 @@ public class StatusActivity extends AppCompatActivity {
         BannerAdView mBannerAdView = (BannerAdView) findViewById(R.id.banner_ad_view);
         String AdUnitId = "R-M-2733347-1";
         mBannerAdView.setAdUnitId(AdUnitId);
-        mBannerAdView.setAdSize(AdSize.BANNER_320x50);
+        mBannerAdView.setAdSize(BannerAdSize.stickySize(this, 350));
 
         // Создание объекта таргетирования рекламы.
         AdRequest adRequest = new AdRequest.Builder().build();
@@ -84,6 +85,7 @@ public class StatusActivity extends AppCompatActivity {
 
     @SuppressLint("SetTextI18n")
     private void updateBatteryInfo(Intent intent) {
+        UpdateBatteryInfo helper = new UpdateBatteryInfo();
         int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
         int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
         float batteryPercent = (level / (float) scale) * 100;
@@ -92,10 +94,10 @@ public class StatusActivity extends AppCompatActivity {
         String chargingStatus = isCharging ? "Заряжается" : "Не заряжается";
 
         int health = intent.getIntExtra(BatteryManager.EXTRA_HEALTH, BatteryManager.BATTERY_HEALTH_UNKNOWN);
-        String healthStatus = getHealthStatusString(health);
+        String healthStatus = helper.getHealthStatusString(health);
 
         int plug = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
-        String plugInfo = getPlugInfo(plug);
+        String plugInfo = helper.getPlugInfo(plug);
 
         // Получение информации о каждой константе
         BatteryManager batteryManager = (BatteryManager) getSystemService(Context.BATTERY_SERVICE);
@@ -130,54 +132,11 @@ public class StatusActivity extends AppCompatActivity {
         voltageTextview.setText("Tекущее напряжения батареи: " + "\n" + voltBatteryVoltage + " V");
     }
 
-    private final Runnable updateBatteryRunnable = new Runnable() {
-        @Override
-        public void run() {
-            IntentFilter intentFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
-            Intent batteryStatus = registerReceiver(null, intentFilter);
-            if (batteryStatus != null) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        updateBatteryInfo(batteryStatus);
-                    }
-                });
-            }
+    private final Runnable updateBatteryRunnable = () -> {
+        IntentFilter intentFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+        Intent batteryStatus = registerReceiver(null, intentFilter);
+        if (batteryStatus != null) {
+            runOnUiThread(() -> updateBatteryInfo(batteryStatus));
         }
     };
-
-
-    private String getHealthStatusString(int health) {
-        switch (health) {
-            case BatteryManager.BATTERY_HEALTH_GOOD:
-                return "Хорошее (Good)";
-            case BatteryManager.BATTERY_HEALTH_OVERHEAT:
-                return "Перегрето (Overheated)";
-            case BatteryManager.BATTERY_HEALTH_DEAD:
-                return "Разряжена (Dead)";
-            case BatteryManager.BATTERY_HEALTH_OVER_VOLTAGE:
-                return "Перенапряжение (Over Voltage)";
-            case BatteryManager.BATTERY_HEALTH_UNSPECIFIED_FAILURE:
-                return "Неуказанная неисправность (Unspecified Failure)";
-            case BatteryManager.BATTERY_HEALTH_COLD:
-                return "Холодное (Cold)";
-            default:
-                return "Неизвестно (Unknown)";
-        }
-    }
-
-    private String getPlugInfo(int plugId){
-        switch (plugId){
-            case BatteryManager.BATTERY_PLUGGED_AC:
-                return "Зарядное устройство, которое подключено к розетке переменного тока";
-            case BatteryManager.BATTERY_PLUGGED_DOCK:
-                return "Док-станция";
-            case BatteryManager.BATTERY_PLUGGED_USB:
-                return "USB-порт (от компьютера, ноутбука и т.д.)";
-            case BatteryManager.BATTERY_PLUGGED_WIRELESS:
-                return "Беспроводной";
-            default:
-                return "Нет источника питания";
-        }
-    }
 }
