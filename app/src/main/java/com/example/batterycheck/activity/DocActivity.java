@@ -21,12 +21,11 @@ public class DocActivity extends AppCompatActivity {
 
         MobileAds.initialize(this, () -> Log.d(YANDEX_MOBILE_ADS_TAG, "SDK initialized"));
 
-        BannerAdView mBannerAdView = (BannerAdView) findViewById(R.id.banner_ad_view);
+        BannerAdView mBannerAdView = findViewById(R.id.banner_ad_view);
         String AdUnitId = "R-M-2733347-2";
         mBannerAdView.setAdUnitId(AdUnitId);
         mBannerAdView.setAdSize(BannerAdSize.stickySize(this, 350));
 
-        // Создание объекта таргетирования рекламы.
         AdRequest adRequest = new AdRequest.Builder().build();
 
         mBannerAdView.loadAd(adRequest);

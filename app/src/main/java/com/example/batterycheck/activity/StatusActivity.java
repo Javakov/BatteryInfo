@@ -36,6 +36,8 @@ public class StatusActivity extends AppCompatActivity {
     private TextView temperaturetextview;
     private TextView voltageTextview;
     private static final String YANDEX_MOBILE_ADS_TAG = "YandexMobileAds";
+    private ScheduledExecutorService executorService;
+    private BroadcastReceiver batteryInfoReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +57,7 @@ public class StatusActivity extends AppCompatActivity {
         temperaturetextview = findViewById(R.id.temperature_textview);
         voltageTextview = findViewById(R.id.voltage_textview);
 
-        BroadcastReceiver batteryInfoReceiver = new BroadcastReceiver() {
+        batteryInfoReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 updateBatteryInfo(intent);
@@ -65,23 +67,19 @@ public class StatusActivity extends AppCompatActivity {
         IntentFilter intentFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         registerReceiver(batteryInfoReceiver, intentFilter);
 
-        ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
-        executorService.scheduleAtFixedRate(updateBatteryRunnable, 0, 1, TimeUnit.SECONDS);
+        executorService = Executors.newSingleThreadScheduledExecutor();
+        executorService.scheduleWithFixedDelay(updateBatteryRunnable, 0, 1, TimeUnit.SECONDS);
 
         MobileAds.initialize(this, () -> Log.d(YANDEX_MOBILE_ADS_TAG, "SDK initialized"));
 
-        // Создание экземпляра mAdView.
-        BannerAdView mBannerAdView = (BannerAdView) findViewById(R.id.banner_ad_view);
+        BannerAdView mBannerAdView = findViewById(R.id.banner_ad_view);
         String AdUnitId = "R-M-2733347-1";
         mBannerAdView.setAdUnitId(AdUnitId);
         mBannerAdView.setAdSize(BannerAdSize.stickySize(this, 350));
 
-        // Создание объекта таргетирования рекламы.
         AdRequest adRequest = new AdRequest.Builder().build();
-
         mBannerAdView.loadAd(adRequest);
     }
-
 
     @SuppressLint("SetTextI18n")
     private void updateBatteryInfo(Intent intent) {
@@ -99,7 +97,6 @@ public class StatusActivity extends AppCompatActivity {
         int plug = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
         String plugInfo = helper.getPlugInfo(plug);
 
-        // Получение информации о каждой константе
         BatteryManager batteryManager = (BatteryManager) getSystemService(Context.BATTERY_SERVICE);
         int chargeCounter = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER);
         double mAhChargeCounter = chargeCounter / 1000.0;
@@ -139,4 +136,29 @@ public class StatusActivity extends AppCompatActivity {
             runOnUiThread(() -> updateBatteryInfo(batteryStatus));
         }
     };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (executorService != null && !executorService.isShutdown()) {
+            executorService.shutdown();
+            try {
+                if (!executorService.awaitTermination(5, TimeUnit.SECONDS)) {
+                    executorService.shutdownNow();
+                }
+            } catch (InterruptedException e) {
+                executorService.shutdownNow();
+                Thread.currentThread().interrupt();
+            }
+        }
+
+        if (batteryInfoReceiver != null) {
+            try {
+                unregisterReceiver(batteryInfoReceiver);
+            } catch (IllegalArgumentException e) {
+                // Receiver was not registered, ignore
+            }
+        }
+    }
 }

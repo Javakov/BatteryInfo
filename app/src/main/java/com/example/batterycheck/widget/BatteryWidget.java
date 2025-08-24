@@ -17,7 +17,6 @@ import com.example.batterycheck.R;
 import com.example.batterycheck.helper.UpdateBatteryInfo;
 
 public class BatteryWidget extends AppWidgetProvider {
-
     private CountDownTimer countDownTimer;
 
     @Override
@@ -59,7 +58,6 @@ public class BatteryWidget extends AppWidgetProvider {
             views.setTextViewText(R.id.battery_info_textview, batteryInfo);
         }
 
-        // Обработка нажатия на виджет
         Intent intent = new Intent(context, BatteryWidget.class);
         intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, new int[]{appWidgetId});
@@ -92,7 +90,6 @@ public class BatteryWidget extends AppWidgetProvider {
         intent.setAction("com.example.batterycheck.BATTERY_UPDATE");
         context.sendBroadcast(intent);
 
-        // Запуск таймера
         if (countDownTimer != null) {
             countDownTimer.start();
         }

@@ -19,7 +19,6 @@ public class UpdateBatteryInfo {
         int plug = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
         String plugInfo = getPlugInfo(plug);
 
-        // Получение информации о каждой константе
         BatteryManager batteryManager = (BatteryManager) context.getSystemService(Context.BATTERY_SERVICE);
         int chargeCounter = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER);
         double mAhChargeCounter = chargeCounter / 1000.0;
@@ -58,7 +57,7 @@ public class UpdateBatteryInfo {
         };
     }
 
-    public String getPlugInfo(int plugId){
+    public String getPlugInfo(int plugId) {
         return switch (plugId) {
             case BatteryManager.BATTERY_PLUGGED_AC -> "Розетка перемен. тока";
             case BatteryManager.BATTERY_PLUGGED_DOCK -> "Док-станция";

@@ -6,6 +6,7 @@ import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -21,9 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout statusLayout1;
     private LinearLayout statusLayout2;
     private boolean isExpanded = false;
-
     private boolean isButtonClickable = true;
-
     private static final long ANIMATION_DURATION = 1500;
 
     @Override
@@ -56,10 +55,9 @@ public class MainActivity extends AppCompatActivity {
                 resetLayout();
             }
 
-            new android.os.CountDownTimer(ANIMATION_DURATION, ANIMATION_DURATION) {
+            new CountDownTimer(ANIMATION_DURATION, ANIMATION_DURATION) {
                 @Override
                 public void onTick(long millisUntilFinished) {
-                    // Ничего не делаем на протяжении задержки
                 }
 
                 @Override
@@ -83,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 resetLayout();
             }
 
-            new android.os.CountDownTimer(ANIMATION_DURATION, ANIMATION_DURATION) {
+            new CountDownTimer(ANIMATION_DURATION, ANIMATION_DURATION) {
                 @Override
                 public void onTick(long millisUntilFinished) {
                 }
@@ -116,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
         animateLayoutHeight(statusLayout2, 1500, 220);
         isExpanded = false;
     }
+
     private void animateLayoutHeight(final View view, int startHeight, int endHeight) {
         ValueAnimator animator = ValueAnimator.ofInt(startHeight, endHeight);
         animator.setDuration(ANIMATION_DURATION);

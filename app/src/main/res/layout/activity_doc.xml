@@ -18,10 +18,11 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Документация"
+                android:text="@string/docs"
                 android:gravity="center"
                 android:fontFamily="sans-serif-thin"
-                android:textSize="35dp" />
+                android:layout_marginTop="15dp"
+                android:textSize="35sp" />
 
             <Space
                 android:layout_width="wrap_content"
@@ -46,10 +47,10 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Объяснение состояний: "
+                android:text="@string/status_explain"
                 android:gravity="center"
                 android:fontFamily="sans-serif-thin"
-                android:textSize="30dp" />
+                android:textSize="30sp" />
 
             <Space
                 android:layout_width="wrap_content"
@@ -89,10 +90,10 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Объяснение каждого состояния здоровья батареи:"
+                android:text="@string/status_explain_obvious"
                 android:gravity="center"
                 android:fontFamily="sans-serif-thin"
-                android:textSize="30dp" />
+                android:textSize="30sp" />
 
             <Space
                 android:layout_width="wrap_content"

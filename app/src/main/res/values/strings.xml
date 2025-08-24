@@ -19,6 +19,10 @@
     <string name="recommends">
         Буду признателен, если вы оцените приложение и напишите рекомендации в RuStore.
     </string>
-    <string name="data_loading">Данные загружаются...</string>
+    <string name="data_loading">Данные загружаются…</string>
+    <string name="taskManger">Диспетчер состояний</string>
+    <string name="docs">Документация</string>
+    <string name="status_explain">Объяснение состояний:</string>
+    <string name="status_explain_obvious">Объяснение каждого состояния здоровья батареи:</string>
 
 </resources>
